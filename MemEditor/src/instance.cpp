@@ -48,8 +48,8 @@ void Instance_class::Run()
 
     WaitForInput();
 
-    DWORD str_1_adress = 0x47F035;
-    DWORD strcpp = 0x69FDF0;
+    //DWORD str_1_adress = 0x47F035;
+    //DWORD strcpp = 0x69FDF0;
 }
 
 void Instance_class::WaitForInput()
