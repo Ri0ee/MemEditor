@@ -24,37 +24,36 @@ bool Instance_class::Init()
 
 void Instance_class::Run()
 {
-    WaitForInput();
-
     Memory_class* memory_manager = new Memory_class();
     if(!memory_manager->Init(*m_process.process_id_vector.begin()))
     {
         std::cout << "Failed to initialize memory manager\n";
         delete memory_manager;
+        system("PAUSE");
         return;
     }
 
     /*
-    for(int i = 0; i < 256; i++)
+    std::vector<unsigned char> temp_byte_vector;
+    for(int i = 0; i < 255; i++)
     {
-        std::cout << memory_manager->ReadChar(0x47F035 + i) << " ";
+        unsigned char temp_byte = 0;
+        memory_manager->ReadByte(0x10000 + i, temp_byte);
+        temp_byte_vector.push_back(temp_byte);
     }
+    std::cout << "\n" << FormatHex(temp_byte_vector) << "\n";
     */
 
-    std::cout << memory_manager->ReadString(0x69FDF0, 100);
+    std::vector<unsigned char> temp_byte_vector;
+    memory_manager->ReadSection(0x20000, temp_byte_vector);
+    std::string temp_output = FormatHex(temp_byte_vector);
+
+    std::cout << temp_output << "\n\n";
 
     memory_manager->Shutdown();
     delete memory_manager;
 
-    WaitForInput();
-
-    //DWORD str_1_adress = 0x47F035;
-    //DWORD strcpp = 0x69FDF0;
-}
-
-void Instance_class::WaitForInput()
-{
-    std::cin.get();
+    system("PAUSE");
 }
 
 bool Instance_class::GetPIDs(process_info& process_info_, bool only_first_one_)
@@ -64,7 +63,10 @@ bool Instance_class::GetPIDs(process_info& process_info_, bool only_first_one_)
 
     HANDLE process_snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
     if(process_snapshot == INVALID_HANDLE_VALUE)
+    {
+        std::cerr << "CreateToolhelp32Snapshot returned INVALID_HANDLE_VALUE\n";
         return false;
+    }
 
     if(Process32First(process_snapshot, &process_entry)) /// if returns true
     {
@@ -86,6 +88,7 @@ bool Instance_class::GetPIDs(process_info& process_info_, bool only_first_one_)
         }
     } else
     {
+        std::cerr << "Process32First failed\n";
         CloseHandle(process_snapshot);
         return false;
     }

@@ -4,6 +4,7 @@
 #include "tlhelp32.h"
 
 #include "src/memory.h"
+#include "src/utility.h"
 
 #include <iostream>
 #include <sstream>
@@ -24,7 +25,6 @@ public:
 
     bool Init();
     void Run();
-    void WaitForInput();
     bool GetPIDs(process_info& process_info_, bool only_first_one_);
 
 private:

@@ -37,6 +37,10 @@
 		<Unit filename="src/main.cpp" />
 		<Unit filename="src/memory.cpp" />
 		<Unit filename="src/memory.h" />
+		<Unit filename="src/processinfo.cpp" />
+		<Unit filename="src/processinfo.h" />
+		<Unit filename="src/utility.cpp" />
+		<Unit filename="src/utility.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />
