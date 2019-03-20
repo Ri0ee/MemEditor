@@ -11,20 +11,24 @@
 
 typedef long long (NTAPI* RtlAdjustPrivilege_)(ULONG Privilege, BOOL Enable, BOOL CurrentThread, PBOOL Enabled);
 
-class Memory_class
+template<typename T> std::string to_string(const T& n)
+{
+    std::ostringstream stm;
+    stm << n;
+    return stm.str();
+}
+
+class MemoryManager
 {
 public:
-    Memory_class(){}
-    ~Memory_class(){}
-
-    bool Init(int process_id_);
-    void Shutdown();
+    MemoryManager(int process_id_) : m_process_id(process_id_) { Initialize(); }
+    ~MemoryManager() { Shutdown(); }
 
     void GetSysInf();
     bool SetDbgPrivilege();
     bool GetMBI(LPCVOID address_, MEMORY_BASIC_INFORMATION& mbi_);
     bool MemoryAccess(MEMORY_BASIC_INFORMATION mbi_);
-    void PrintMemoryInfo(MEMORY_BASIC_INFORMATION memory_basic_info_);
+    std::string FormatMemoryInfo(MEMORY_BASIC_INFORMATION memory_basic_info_);
 
     bool ReadString(DWORD address_, std::string& value_, int max_amount_);
     bool ReadInteger(DWORD address_, int& value_);
@@ -43,11 +47,14 @@ public:
     HANDLE GetPHandle()                 { return m_process_handle; }
 
 private:
-    int m_process_id;
-    HANDLE m_process_handle;
+    bool m_initialized = false;
+
+    int m_process_id = 0;
+    HANDLE m_process_handle = 0;
     MEMORY_BASIC_INFORMATION m_memory_basic_info;
     SYSTEM_INFO m_system_info;
-    BOOL m_debug_privilege_status;
+    BOOL m_debug_privilege_status = false;
 
-    bool m_is_initialized;
+    void Initialize();
+    void Shutdown();
 };

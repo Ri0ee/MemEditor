@@ -24,14 +24,7 @@ bool Instance_class::Init()
 
 void Instance_class::Run()
 {
-    Memory_class* memory_manager = new Memory_class();
-    if(!memory_manager->Init(*m_process.process_id_vector.begin()))
-    {
-        std::cout << "Failed to initialize memory manager\n";
-        delete memory_manager;
-        system("PAUSE");
-        return;
-    }
+    MemoryManager memory_manager(*m_process.process_id_vector.begin());
 
     /*
     std::vector<unsigned char> temp_byte_vector;
@@ -45,13 +38,10 @@ void Instance_class::Run()
     */
 
     std::vector<unsigned char> temp_byte_vector;
-    memory_manager->ReadSection(0x20000, temp_byte_vector);
+    memory_manager.ReadSection(0x20000, temp_byte_vector);
     std::string temp_output = FormatHex(temp_byte_vector);
 
     std::cout << temp_output << "\n\n";
-
-    memory_manager->Shutdown();
-    delete memory_manager;
 
     system("PAUSE");
 }
