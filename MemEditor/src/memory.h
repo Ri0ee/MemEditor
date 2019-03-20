@@ -11,13 +11,6 @@
 
 typedef long long (NTAPI* RtlAdjustPrivilege_)(ULONG Privilege, BOOL Enable, BOOL CurrentThread, PBOOL Enabled);
 
-template<typename T> std::string to_string(const T& n)
-{
-    std::ostringstream stm;
-    stm << n;
-    return stm.str();
-}
-
 class MemoryManager
 {
 public:

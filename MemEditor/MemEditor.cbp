@@ -31,14 +31,13 @@
 		<Compiler>
 			<Add option="-Wall" />
 			<Add option="-std=c++11" />
+			<Add directory="../MemEditor" />
 		</Compiler>
 		<Unit filename="src/instance.cpp" />
 		<Unit filename="src/instance.h" />
 		<Unit filename="src/main.cpp" />
 		<Unit filename="src/memory.cpp" />
 		<Unit filename="src/memory.h" />
-		<Unit filename="src/processinfo.cpp" />
-		<Unit filename="src/processinfo.h" />
 		<Unit filename="src/utility.cpp" />
 		<Unit filename="src/utility.h" />
 		<Extensions>
